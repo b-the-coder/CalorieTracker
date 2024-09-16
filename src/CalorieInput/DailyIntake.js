@@ -4,7 +4,6 @@ import Input from "./input"
 
 const DailyIntake = ()=>{
     return(<div>
-        <Input/>
         <Display/>
     </div>)
 }
