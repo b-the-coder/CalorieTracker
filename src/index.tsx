@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import Root from './routes/root'
+import App from './App.js'
 import { Auth0Provider } from '@auth0/auth0-react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AfterLogin from './User/AuthedUser'
 
 const router = createBrowserRouter([
-    { path: '/', element: <Root /> },
+    { path: '/', element: <App /> },
     {
         path: 'api/histories',
         element: < AfterLogin/>,

@@ -14,7 +14,7 @@ app.get('/api/histories', async (req, res) => {
         const recentHistory = await db.query(
             'SELECT * FROM user5dayscaloriehistory'
         );
-        const recentCalories = recentHistory.rows[2]["fivedayhistories"]
+        const recentCalories = recentHistory.rows[0]["fivedayhistories"]
         res.json(recentCalories);
         
     } catch (err) {
