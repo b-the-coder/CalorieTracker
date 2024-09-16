@@ -29,3 +29,35 @@ code {
 .userIcon{
   float:right;
 }
+
+.LandingpageWelcome {
+    font-family: 'Comic Sans MS', 'Cursive', sans-serif; /* Cute Font */
+    font-size: 2rem; /* Large font size */
+    background: linear-gradient(90deg, green, red, blue); /* Gradient */
+    background-clip: text;
+    -webkit-background-clip: text; /* For Safari */
+    color: transparent; /* Make text transparent to show gradient */
+    text-align: center; /* Center text horizontally */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 10vh; /* Full height to center vertically */
+}
+
+.CaloriesCounter {
+    font-family: 'Comic Sans MS', 'Cursive', sans-serif; /* Cute Font */
+    font-size: 2rem; /* Large font size */
+    background: linear-gradient(90deg, green, red, blue); /* Gradient */
+    background-clip: text;
+    -webkit-background-clip: text; /* For Safari */
+    color: transparent; /* Make text transparent to show gradient */
+    text-align: center; /* Center text horizontally */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh; /* Full height to center vertically */
+}
