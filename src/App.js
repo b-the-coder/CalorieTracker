@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import LoginButton from './login'
-import UserProfileDropdown from './userprofile'
-
+import LoginButton from './User/login'
+import Profile from './User/profile'
+import { Router, Route } from 'react-router'
 
 function App() {
     const [histories, setHistory] = useState(null)
@@ -25,11 +25,11 @@ function App() {
 
     return (
         <div className="App">
-            <h1>Calories Counter</h1>
-            <div >
+            <div>
+                <h1>Calories Counter</h1>
                 <LoginButton />
             </div>
-            <UserProfileDropdown/>
+            <Profile />
             <button onClick={handleClick}>My recent calories history</button>
             {histories && (
                 <ul>
