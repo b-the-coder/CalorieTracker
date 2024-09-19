@@ -5,25 +5,53 @@ import { useNavigate } from 'react-router'
 import { useAuth0 } from '@auth0/auth0-react'
 import DailyIntake from '../CalorieInput/DailyIntake'
 
+
 function AfterLogin() {
     const [histories, setHistory] = useState(null)
-    const { isAuthenticated } = useAuth0()
     const navigate = useNavigate()
+    const { user, isAuthenticated } = useAuth0()
 
     const fetchUserrecentCalories = async () => {
         try {
             const response = await fetch('/api/histories')
-            console.log(response)
+
             // Check if the response is ok (status code is in the 200-299 range)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
             }
             // Parse the response as JSON
             const data = await response.json()
-            console.log(data)
+
             setHistory(data)
         } catch (error) {
             console.error('Error fetching histories:', error)
+        }
+    }
+
+    const saveUserToBackend = async (id, name) => {
+        try {
+            // const token = await getAccessTokenSilently();
+            // console.log(token);
+
+            // Send user data to backend
+            const response = await fetch('/api/saveUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${token}` // Pass the access token
+                },
+                body: JSON.stringify({
+                    username: name, // e.g., user's name
+                    auth0_sub: id, // Auth0 unique user ID
+                }),
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to save user')
+            }
+            // Set the userProcessed flag to true
+        } catch (error) {
+            console.error('Error saving user to backend:', error)
         }
     }
 
@@ -32,8 +60,9 @@ function AfterLogin() {
             navigate('/api/histories')
             // Redirect to the desired route
             fetchUserrecentCalories()
+            saveUserToBackend(user.sub, user.name)
         }
-    }, [isAuthenticated, navigate])
+    }, [isAuthenticated, user, navigate])
 
     return (
         <div>
@@ -52,6 +81,7 @@ function AfterLogin() {
                     )}
                 </div>
                 <DailyIntake />
+          
             </div>
         </div>
     )

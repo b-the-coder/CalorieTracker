@@ -15,8 +15,6 @@ const NavBar = () => {
         return <div>Loading ...</div>
     }
 
-    console.log(user)
-
     return (
         isAuthenticated && (
             <div className="header-container">
