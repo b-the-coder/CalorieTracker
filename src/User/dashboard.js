@@ -3,13 +3,15 @@ import NavBar from './navbar'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useAuth0 } from '@auth0/auth0-react'
-import DailyIntake from '../CalorieInput/DailyIntake'
+import Display from '../CalorieInput/display'
 
 
-function AfterLogin() {
+
+function Dashboard() {
     const [histories, setHistory] = useState(null)
     const navigate = useNavigate()
-    const { user, isAuthenticated } = useAuth0()
+    const { user, isAuthenticated } = useAuth0();
+    localStorage.setItem("userName", user.name)
 
     const fetchUserrecentCalories = async () => {
         try {
@@ -80,11 +82,11 @@ function AfterLogin() {
                         </ul>
                     )}
                 </div>
-                <DailyIntake />
+                <Display />
           
             </div>
         </div>
     )
 }
 
-export default AfterLogin
+export default Dashboard;
