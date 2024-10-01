@@ -4,13 +4,19 @@ import './index.css'
 import App from './App.js'
 import { Auth0Provider } from '@auth0/auth0-react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import AfterLogin from './User/dashboard'
+import Dashboard from './User/dashboard'
+import ErrorPage from './error-page'
+import ProtectedRoute from './User/protectedroute'
 
 const router = createBrowserRouter([
-    { path: '/', element: <App /> },
+    { id: 'root', path: '/', element: <App />, errorElement: <ErrorPage /> },
     {
-        path: 'api/histories',
-        element: <AfterLogin />,
+        path: 'dashboard',
+        element: (
+            <ProtectedRoute>
+                <Dashboard />
+            </ProtectedRoute>
+        ),
     },
 ])
 

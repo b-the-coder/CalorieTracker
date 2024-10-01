@@ -1,17 +1,20 @@
-import LogoutButton from './logout'
-import NavBar from './navbar'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
-import { useAuth0 } from '@auth0/auth0-react'
-import Display from '../CalorieInput/display'
+
+import NavBar from './navbar';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useAuth0 } from '@auth0/auth0-react';
+import Display from '../CalorieInput/display';
+import Token from './checkaccesstoken';
+
 
 
 
 function Dashboard() {
-    const [histories, setHistory] = useState(null)
-    const navigate = useNavigate()
-    const { user, isAuthenticated } = useAuth0();
-    localStorage.setItem("userName", user.name)
+    const [histories, setHistory] = useState(null);
+    const [userMetadata,setUserMetadata]  = useState(null);
+    const navigate = useNavigate();
+    const { user, isAuthenticated,isLoading,getAccessTokenSilently} = useAuth0();
+    
 
     const fetchUserrecentCalories = async () => {
         try {
@@ -28,7 +31,7 @@ function Dashboard() {
         } catch (error) {
             console.error('Error fetching histories:', error)
         }
-    }
+    };
 
     const saveUserToBackend = async (id, name) => {
         try {
@@ -55,17 +58,51 @@ function Dashboard() {
         } catch (error) {
             console.error('Error saving user to backend:', error)
         }
-    }
+    };
+    const getUserMetadata = async () => {
+        const domain = "dev-c24xrqhgozkloytg.us.auth0.com";
+    if(isAuthenticated){
+        try {
+          const accessToken = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: `https://${domain}/api/v2/`,
+              scope: "read:current_user",
+            },
+          });
+    
+          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+           console.log(userDetailsByIdUrl);
+           console.log(accessToken);
+          const metadataResponse = await fetch(userDetailsByIdUrl, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+    
+          const { user_metadata } = await metadataResponse.json();
+    
+          setUserMetadata(user_metadata);
+          console.log(user_metadata);
+        } catch (e) {
+          console.log(e.message);
+        }}
+      };
+   
 
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/api/histories')
-            // Redirect to the desired route
-            fetchUserrecentCalories()
+        if (isAuthenticated && !isLoading ) {
+            navigate('/dashboard')
+            getUserMetadata();
+            fetchUserrecentCalories();
+           
             saveUserToBackend(user.sub, user.name)
         }
-    }, [isAuthenticated, user, navigate])
+    }, [isAuthenticated, user, navigate,isLoading])
 
+   
+   if(isLoading){
+    return <div>Loading...</div>
+   }
     return (
         <div>
             <NavBar />
@@ -83,6 +120,7 @@ function Dashboard() {
                     )}
                 </div>
                 <Display />
+                <Token />
           
             </div>
         </div>

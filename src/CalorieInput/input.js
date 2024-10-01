@@ -5,7 +5,8 @@ import { useAuth0 } from '@auth0/auth0-react'
 const Input = ({ onInputChange }) => {
     const [item, setItem] = useState('')
     const [calories, setCalories] = useState('')
-    const { user } = useAuth0()
+    const { user } = useAuth0();
+    const [inserted,setInserted] = useState(false);
 
     const handleItemChange = (event) => {
         console.log('in item handle change')
@@ -36,6 +37,8 @@ const Input = ({ onInputChange }) => {
             if (!response.ok) {
                 throw new Error('Failed to add item')
             }
+            setInserted(true);
+            onInputChange(inserted);
         } catch (error) {
             console.error('Error saving user to backend:', error)
         }
@@ -44,7 +47,7 @@ const Input = ({ onInputChange }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         addItem(item, calories);
-        onInputChange();
+        
 
         setItem('')
         setCalories('')

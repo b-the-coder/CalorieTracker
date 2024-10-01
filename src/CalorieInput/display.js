@@ -6,12 +6,12 @@ const Display = () => {
     const [currentIntakelist, setCurrentIntakeList] = useState([])
     const [currentCalorieslist, setCurrentCalorieslist] = useState([]);
     const { user } = useAuth0();
-    console.log(user);
+   
     const userName = user.name;
-    console.log(userName);
+    
 
     const fetchItem = async (userName) => {
-        console.log(userName);
+        
         try {
             // Get user's fooditem from backend
             const response = await fetch(`/api/getItems/${userName}`, {
@@ -22,17 +22,16 @@ const Display = () => {
                 },
             })
             const userItems = await response.json()
-            console.log(userItems);
-            console.log(Array.isArray(userItems)); 
+         
             setCurrentIntakeList(userItems)
            
             const userCalories = userItems.map(
                 (singleitem) => singleitem.calories
             )
-            console.log(Array.isArray(userCalories));
+           
 
             setCurrentCalorieslist(userCalories);
-            // console.log(Array.isArray(userCalories));
+            
       
 
             
@@ -54,9 +53,9 @@ const Display = () => {
         
     }, []); // Depend on userId only, fetch when userId is available
 
-    const handleInputChange = async () => {
-        
-        fetchItem(userName)
+    const handleInputChange = async (inserted) => {
+        if(inserted === true){
+        fetchItem(userName)};
     }
 
     const userItemDisplay = currentIntakelist.map((singleitem) => {
