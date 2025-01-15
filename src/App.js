@@ -1,7 +1,6 @@
-import Dashboard from './User/dashboard'
-import LoginButton from './User/login'
+import Dashboard from './components/dashboard.js'
+import LoginButton from './features/auth/login.js'
 import { useAuth0 } from '@auth0/auth0-react'
-import ProtectedRoute from './User/protectedroute'
 
 function App() {
     const { isAuthenticated } = useAuth0()

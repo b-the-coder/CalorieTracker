@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+ import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -30,9 +30,7 @@ const ProtectedRoute = ({ children }) => {
 
 export default ProtectedRoute;
 
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+
 
 // const ProtectedRoute = ({ children }) => {
 //   const { isAuthenticated, isLoading } = useAuth0();

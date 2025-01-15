@@ -1,17 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
-import Input from './input'
+import Input from './input.js'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Display = () => {
     const [currentIntakelist, setCurrentIntakeList] = useState([])
-    const [currentCalorieslist, setCurrentCalorieslist] = useState([]);
-    const { user } = useAuth0();
-   
-    const userName = user.name;
-    
+    const [currentCalorieslist, setCurrentCalorieslist] = useState([])
+    const { user } = useAuth0()
+
+    const userName = user.name
 
     const fetchItem = async (userName) => {
-        
         try {
             // Get user's fooditem from backend
             const response = await fetch(`/api/getItems/${userName}`, {
@@ -22,19 +20,15 @@ const Display = () => {
                 },
             })
             const userItems = await response.json()
-         
+
             setCurrentIntakeList(userItems)
-           
+
             const userCalories = userItems.map(
                 (singleitem) => singleitem.calories
             )
-           
 
-            setCurrentCalorieslist(userCalories);
-            
-      
+            setCurrentCalorieslist(userCalories)
 
-            
             if (!response.ok) {
                 throw new Error(`Failed to get user's calories`)
             }
@@ -46,24 +40,22 @@ const Display = () => {
         }
     }
 
-   
     useEffect(() => {
-       
-            fetchItem(userName); // Fetch when userId is set
-        
-    }, []); // Depend on userId only, fetch when userId is available
+        fetchItem(userName) // Fetch when userId is set
+    }, []) // Depend on userId only, fetch when userId is available
 
     const handleInputChange = async (inserted) => {
-        if(inserted === true){
-        fetchItem(userName)};
+        if (inserted === true) {
+            fetchItem(userName)
+        }
     }
 
     const userItemDisplay = currentIntakelist.map((singleitem) => {
         return (
             <li className="item-display">
-            <span>{singleitem.item}</span>
-            <span>{singleitem.calories} calories</span>
-        </li>
+                <span>{singleitem.item}</span>
+                <span>{singleitem.calories} calories</span>
+            </li>
         )
     })
 
@@ -74,10 +66,10 @@ const Display = () => {
             <Input onInputChange={handleInputChange} />
             <div>
                 You total calories so far for today is : {total}
-                 <ul>{userItemDisplay}</ul> 
+                <ul>{userItemDisplay}</ul>
             </div>
         </div>
     )
 }
 
-export default Display;
+export default Display
